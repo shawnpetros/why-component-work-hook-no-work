@@ -19,18 +19,25 @@ test("timer accepts initial time", () => {
   const remTime = screen.getByTestId("remaining-time");
   expect(remTime.textContent).toBe(`${initial}`);
   act(() => {
-    jest.advanceTimersByTime(10000);
+    jest.advanceTimersByTime(1000);
   });
-  expect(remTime.textContent).toBe("110");
+  expect(remTime.textContent).toBe("119");
+  act(() => {
+    jest.advanceTimersByTime(1000);
+  });
+  expect(remTime.textContent).toBe("118");
 });
 
 test("timer stops at zero", () => {
   const initial = 10;
   render(<App {...{ initial }} />);
   const remTime = screen.getByTestId("remaining-time");
-  act(() => {
-    jest.advanceTimersByTime(15000);
-  });
+  // simulate the passage of 10s
+  for (let i = 0; i < 10; i++) {
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
+  }
   expect(remTime.textContent).toBe("0");
 });
 
@@ -39,12 +46,19 @@ test("timer has a stop button that stops timer", () => {
   render(<App {...{ initial }} />);
   const remTime = screen.getByTestId("remaining-time");
   const stopBut = screen.getByTestId("end-time");
-  act(() => {
-    jest.advanceTimersByTime(10000);
-  });
+  // simulate the passage of 10s
+  for (let i = 0; i < 10; i++) {
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
+  }
+  expect(remTime.textContent).toBe("110");
   stopBut.click();
-  act(() => {
-    jest.advanceTimersByTime(10000);
-  });
+  // simulate the passage of 10s
+  for (let i = 0; i < 10; i++) {
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
+  }
   expect(remTime.textContent).toBe("110");
 });
