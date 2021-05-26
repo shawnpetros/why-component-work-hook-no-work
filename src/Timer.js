@@ -11,7 +11,7 @@ function Timer({ initial }) {
   };
   useEffect(() => {
     const id = setInterval(tick, 1000);
-    if (stop) clearTimeout(id);
+    if (stop) clearInterval(id);
     return () => clearInterval(id);
   }, [stop, tick]);
   return (

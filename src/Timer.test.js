@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { act } from "react-dom/test-utils";
 import App from "./App";
 
 beforeEach(() => {
@@ -17,7 +18,9 @@ test("timer accepts initial time", () => {
   render(<App {...{ initial }} />);
   const remTime = screen.getByTestId("remaining-time");
   expect(remTime.textContent).toBe(`${initial}`);
-  jest.advanceTimersByTime(10000);
+  act(() => {
+    jest.advanceTimersByTime(10000);
+  });
   expect(remTime.textContent).toBe("110");
 });
 
@@ -25,7 +28,9 @@ test("timer stops at zero", () => {
   const initial = 10;
   render(<App {...{ initial }} />);
   const remTime = screen.getByTestId("remaining-time");
-  jest.runTimersToTime(15000);
+  act(() => {
+    jest.advanceTimersByTime(15000);
+  });
   expect(remTime.textContent).toBe("0");
 });
 
@@ -34,8 +39,12 @@ test("timer has a stop button that stops timer", () => {
   render(<App {...{ initial }} />);
   const remTime = screen.getByTestId("remaining-time");
   const stopBut = screen.getByTestId("end-time");
-  jest.runTimersToTime(10000);
+  act(() => {
+    jest.advanceTimersByTime(10000);
+  });
   stopBut.click();
-  jest.runTimersToTime(10000);
+  act(() => {
+    jest.advanceTimersByTime(10000);
+  });
   expect(remTime.textContent).toBe("110");
 });

@@ -5,7 +5,7 @@ import TimerClass from "./TimerClass";
 function App({ initial = 100 }) {
   return (
     <div className="App" data-testid="app">
-      <TimerClass {...{ initial }} />
+      <Timer {...{ initial }} />
     </div>
   );
 }
